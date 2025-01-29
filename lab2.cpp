@@ -27,6 +27,9 @@ using namespace std;
 class Global {
 public:
 	int xres, yres;
+    float w;
+    float dir;
+    float pos[2];
 	Global();
 } g;
 
@@ -79,6 +82,11 @@ Global::Global()
 {
 	xres = 400;
 	yres = 200;
+        
+	w = 20.0f;
+	dir = 30.0f;
+    pos[0] = 0.0f+w;
+    pos[1] = yres/2.0f;
 }
 
 X11_wrapper::~X11_wrapper()
@@ -241,38 +249,34 @@ void init_opengl(void)
 
 void physics()
 {
-	//No physics yet.
 
+	g.pos[0] += g.dir;
+	if (g.pos[0] >= (g.xres-g.w)) {
+		g.pos[0] = (g.xres-g.w);
+		g.dir = -g.dir;
+	}
+	if (g.pos[0] <= g.w) {
+		g.pos[0] = g.w;
+		g.dir = -g.dir;
+	}
 }
 
 void render()
 {
-	static float w = 20.0f;
-	static float dir = 30.0f;
-	static float pos[2] = { 0.0f+w, g.yres/2.0f };
 
 	//clear the window
 	glClear(GL_COLOR_BUFFER_BIT);
 	//draw the box
 	glPushMatrix();
 	glColor3ub(100, 120, 220);
-	glTranslatef(pos[0], pos[1], 0.0f);
+	glTranslatef(g.pos[0], g.pos[1], 0.0f);
 	glBegin(GL_QUADS);
-		glVertex2f(-w, -w);
-		glVertex2f(-w,  w);
-		glVertex2f( w,  w);
-		glVertex2f( w, -w);
+		glVertex2f(-g.w, -g.w);
+		glVertex2f(-g.w,  g.w);
+		glVertex2f( g.w,  g.w);
+		glVertex2f( g.w, -g.w);
 	glEnd();
 	glPopMatrix();
-	pos[0] += dir;
-	if (pos[0] >= (g.xres-w)) {
-		pos[0] = (g.xres-w);
-		dir = -dir;
-	}
-	if (pos[0] <= w) {
-		pos[0] = w;
-		dir = -dir;
-	}
 }
 
 
