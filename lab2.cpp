@@ -9,6 +9,9 @@
 //This program needs some refactoring.
 //We will do this in class together.
 //
+//to do list
+// 1/31/2025
+//
 //
 #include <iostream>
 using namespace std;
@@ -129,7 +132,7 @@ void X11_wrapper::set_title()
 {
 	//Set the window title bar.
 	XMapWindow(dpy, win);
-	XStoreName(dpy, win, "3350 Lab-1");
+	XStoreName(dpy, win, "3350 Lab-1 CHANGED - ESC to exit");
 }
 
 bool X11_wrapper::getXPending()
